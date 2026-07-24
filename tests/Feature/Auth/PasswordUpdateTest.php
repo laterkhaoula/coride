@@ -1,10 +1,15 @@
 <?php
 
-use App\Models\User;
+use App\Models\Employe;
+use App\Models\Entreprise;
 use Illuminate\Support\Facades\Hash;
 
 test('password can be updated', function () {
-    $user = User::factory()->create();
+    $entreprise = Entreprise::firstOrCreate(['nom' => 'MobiliTech']);
+    $user = Employe::factory()->create([
+        'entreprise_id' => $entreprise->id,
+        'password' => Hash::make('password'),
+    ]);
 
     $response = $this
         ->actingAs($user)
@@ -23,7 +28,11 @@ test('password can be updated', function () {
 });
 
 test('correct password must be provided to update password', function () {
-    $user = User::factory()->create();
+    $entreprise = Entreprise::firstOrCreate(['nom' => 'MobiliTech']);
+    $user = Employe::factory()->create([
+        'entreprise_id' => $entreprise->id,
+        'password' => Hash::make('password'),
+    ]);
 
     $response = $this
         ->actingAs($user)

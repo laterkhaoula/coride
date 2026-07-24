@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('entreprise_id')->constrained('entreprises')->onDelete('cascade');
             $table->string('ville_residence');
             $table->enum('role', ['conducteur', 'passager', 'les deux']);
             $table->string('password')->default('$2y$12$e.Y.lY.2e5lZ5kZ5kZ5kZu.Xy1.Xy1.Xy1.Xy1.Xy1.Xy1.Xy1.Xy'); // bcrypt('password')
+            $table->rememberToken();
             $table->timestamps();
         });
     }

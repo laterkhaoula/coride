@@ -2,63 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEntrepriseRequest;
+use App\Models\Entreprise;
 use Illuminate\Http\Request;
 
 class EntrepriseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $entreprises = Entreprise::withCount('employes')->latest()->get();
+        return view('entreprises.index', compact('entreprises'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('entreprises.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreEntrepriseRequest $request)
     {
-        //
+        Entreprise::create($request->validated());
+
+        return redirect()->route('entreprises.index')->with('success', 'Entreprise partenaire ajoutée avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Entreprise $entreprise)
     {
-        //
+        $entreprise->load('employes');
+        return view('entreprises.show', compact('entreprise'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Entreprise $entreprise)
     {
-        //
+        return view('entreprises.edit', compact('entreprise'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Entreprise $entreprise)
     {
-        //
+        $request->validate([
+            'nom' => ['required', 'string', 'max:255', 'unique:entreprises,nom,' . $entreprise->id],
+        ]);
+
+        $entreprise->update($request->only('nom'));
+
+        return redirect()->route('entreprises.index')->with('success', 'Entreprise mise à jour avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Entreprise $entreprise)
     {
-        //
+        $entreprise->delete();
+        return redirect()->route('entreprises.index')->with('success', 'Entreprise supprimée avec succès.');
     }
 }

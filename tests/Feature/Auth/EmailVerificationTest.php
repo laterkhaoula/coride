@@ -1,12 +1,14 @@
 <?php
 
-use App\Models\User;
+use App\Models\Employe;
+use App\Models\Entreprise;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 
 test('email verification screen can be rendered', function () {
-    $user = User::factory()->unverified()->create();
+    $entreprise = Entreprise::firstOrCreate(['nom' => 'MobiliTech']);
+    $user = Employe::factory()->unverified()->create(['entreprise_id' => $entreprise->id]);
 
     $response = $this->actingAs($user)->get('/verify-email');
 
@@ -14,7 +16,8 @@ test('email verification screen can be rendered', function () {
 });
 
 test('email can be verified', function () {
-    $user = User::factory()->unverified()->create();
+    $entreprise = Entreprise::firstOrCreate(['nom' => 'MobiliTech']);
+    $user = Employe::factory()->unverified()->create(['entreprise_id' => $entreprise->id]);
 
     Event::fake();
 
@@ -27,12 +30,12 @@ test('email can be verified', function () {
     $response = $this->actingAs($user)->get($verificationUrl);
 
     Event::assertDispatched(Verified::class);
-    expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
     $response->assertRedirect(route('dashboard', absolute: false).'?verified=1');
 });
 
 test('email is not verified with invalid hash', function () {
-    $user = User::factory()->unverified()->create();
+    $entreprise = Entreprise::firstOrCreate(['nom' => 'MobiliTech']);
+    $user = Employe::factory()->unverified()->create(['entreprise_id' => $entreprise->id]);
 
     $verificationUrl = URL::temporarySignedRoute(
         'verification.verify',

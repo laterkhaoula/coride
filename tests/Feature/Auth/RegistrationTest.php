@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Entreprise;
+
 test('registration screen can be rendered', function () {
     $response = $this->get('/register');
 
@@ -7,9 +9,14 @@ test('registration screen can be rendered', function () {
 });
 
 test('new users can register', function () {
+    $entreprise = Entreprise::firstOrCreate(['nom' => 'MobiliTech']);
+
     $response = $this->post('/register', [
-        'name' => 'Test User',
-        'email' => 'test@example.com',
+        'nom' => 'Test User',
+        'email' => 'test@mobilitech.com',
+        'entreprise_id' => $entreprise->id,
+        'ville_residence' => 'Paris',
+        'role' => 'passager',
         'password' => 'password',
         'password_confirmation' => 'password',
     ]);
