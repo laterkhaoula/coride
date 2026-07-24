@@ -11,7 +11,12 @@ use App\Models\Employe;
 use App\Models\Entreprise;
 use Illuminate\Support\Facades\Route;
 
-git add .
+Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+    return view('welcome');
+});
 
 Route::get('/dashboard', function () {
     $user = auth()->user();
