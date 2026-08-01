@@ -5,46 +5,54 @@
 @layer base {
     body {
         font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        color: #1e293b;
+        background-image: linear-gradient(to bottom, rgba(248, 250, 252, 0.91), rgba(241, 245, 249, 0.93)), url('/images/natural_landscape_background.png');
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
     }
     h1, h2, h3, h4, h5, h6 {
         font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+        color: #0f172a;
     }
 }
 
-/* Custom Carpooling Utilities */
-.glass-card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(226, 232, 240, 0.8);
+/* Custom Soft Modern Components */
+.card-clean {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease-in-out;
 }
 
-.dark .glass-card {
-    background: rgba(15, 23, 42, 0.85);
-    border: 1px solid rgba(30, 41, 59, 0.8);
+.card-clean:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
 }
 
-.road-badge {
-    position: relative;
-    overflow: hidden;
+.badge-emerald {
+    background-color: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
 }
 
-.road-badge::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3px;
-    height: 100%;
-    background: #6366f1;
+.badge-indigo {
+    background-color: #eef2ff;
+    color: #4338ca;
+    border: 1px solid #c7d2fe;
 }
 
-/* Score Pulse Animation */
-@keyframes pulse-slow {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.05); opacity: 0.85; }
+.badge-amber {
+    background-color: #fffbeb;
+    color: #b45309;
+    border: 1px solid #fde68a;
 }
 
-.animate-pulse-slow {
-    animation: pulse-slow 3s ease-in-out infinite;
+.badge-rose {
+    background-color: #fff1f2;
+    color: #be123c;
+    border: 1px solid #fecdd3;
 }
